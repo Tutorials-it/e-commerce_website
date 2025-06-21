@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Women's Formal Wear - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      background-color: #8e44ad;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 100%;
+      max-width: 250px;
+      background: #fff;
+      padding: 20px;
+      margin-right: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .product-area {
+      flex: 1;
+    }
+
+    .filter-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+    }
+
+    .product-card p {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .price {
+      color: #8e44ad;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .rating {
+      color: #f39c12;
+    }
+
+    .btn {
+      background-color: #8e44ad;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #732d91;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Women's Formal Wear</h1>
+</header>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Zara"> Zara</label>
+      <label><input type="checkbox" class="brand" value="H&M"> H&M</label>
+      <label><input type="checkbox" class="brand" value="Mango"> Mango</label>
+      <label><input type="checkbox" class="brand" value="FabIndia"> FabIndia</label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <label><input type="checkbox" class="price-range" value="1"> ₹1,000 - ₹2,000</label>
+      <label><input type="checkbox" class="price-range" value="2"> ₹2,000 - ₹3,000</label>
+      <label><input type="checkbox" class="price-range" value="3"> ₹3,000 - ₹5,000</label>
+    </div>
+
+    <button onclick="applyFilters()" class="btn">Show</button>
+  </div>
+
+  <!-- Product area -->
+  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Formal Wear Collection</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { brand: "Zara", name: "Zara Blazer Dress", desc: "Elegant one-piece", price: 3999, rating: 5, img: "./assets/images/products/womenformal1.jpg" },
+  { brand: "H&M", name: "H&M Shirt & Trouser", desc: "Business look", price: 2199, rating: 4, img: "./assets/images/products/womenformal2.jpg" },
+  { brand: "Mango", name: "Mango Pleated Blazer", desc: "Creased and formal", price: 3599, rating: 5, img: "./assets/images/products/womenformal3.jpg" },
+  { brand: "FabIndia", name: "FabIndia Linen Kurta", desc: "Formal ethnic wear", price: 1899, rating: 4, img: "./assets/images/products/womenformal4.jpg" },
+  { brand: "Zara", name: "Zara Black Suit", desc: "Power look", price: 4899, rating: 5, img: "./assets/images/products/womenformal5.jpg" },
+  { brand: "H&M", name: "H&M Pencil Skirt", desc: "With silk top", price: 2799, rating: 4, img: "./assets/images/products/womenformal6.jpg" },
+  { brand: "Mango", name: "Mango White Shirt", desc: "With pleated trousers", price: 3299, rating: 3, img: "./assets/images/products/womenformal7.jpg" },
+  { brand: "FabIndia", name: "FabIndia Cotton Jacket", desc: "Ethnic jacket", price: 2499, rating: 4, img: "./assets/images/products/womenformal8.jpg" },
+  { brand: "Zara", name: "Zara Flared Pants", desc: "Matching blazer", price: 3799, rating: 5, img: "./assets/images/products/womenformal9.jpg" },
+  { brand: "H&M", name: "H&M Formal Top", desc: "With formal skirt", price: 1599, rating: 3, img: "./assets/images/products/womenformal10.jpg" }
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = products.filter(p => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(p.brand);
+    const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
+      if (range === '1') return p.price >= 1000 && p.price <= 2000;
+      if (range === '2') return p.price > 2000 && p.price <= 3000;
+      if (range === '3') return p.price > 3000 && p.price <= 5000;
+    });
+    return brandMatch && priceMatch;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(items) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (items.length === 0) {
+    grid.innerHTML = '<p>No items found.</p>';
+    return;
+  }
+
+  items.forEach(item => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${item.img}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="price">₹${item.price.toLocaleString()}</div>
+        <div class="rating">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(products);
+</script>
+
+</body>
+</html>

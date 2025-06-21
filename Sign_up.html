@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - Online Shopping</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #d4a9f9, #e3b7fc);
+      height: 100vh; display: flex;
+      justify-content: center; align-items: center;
+    }
+    .container {
+      background: white; border-radius: 10px;
+      display: flex; width: 80%; max-width: 1000px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .illustration {
+      width: 55%; background-color: #f8e7ff;
+      padding: 30px; text-align: center;
+    }
+    .illustration img {
+      width: 80%; max-width: 300px;
+    }
+    .login-box {
+      width: 45%; padding: 40px;
+      background-color: #f5d6ff;
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .login-box h2 {
+      margin-bottom: 20px; color: #4a0066;
+    }
+    .input-group { margin-bottom: 15px; }
+    .input-group input {
+      width: 100%; padding: 12px;
+      border: none; border-radius: 5px;
+      outline: none;
+    }
+    button {
+      width: 100%; padding: 12px;
+      background-color: #7000aa;
+      color: white; border: none;
+      border-radius: 5px;
+      font-size: 15px; cursor: pointer;
+    }
+    button:hover { background-color: #5b0087; }
+    .create {
+      text-align: center; font-size: 12px;
+      color: #4a0066; margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="illustration">
+      <h1>JOIN US TODAY</h1>
+      <img src="./assets/images/login.jpg" alt="Sign Up">
+      <p>Sign up and start shopping from thousands of amazing products right now!</p>
+    </div>
+    <div class="login-box">
+      <h2>CREATE ACCOUNT</h2>
+      <form onsubmit="handleSignUp(event)">
+        <div class="input-group">
+          <input type="text" id="name" placeholder="Full Name" required />
+        </div>
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required />
+        </div>
+        <div class="input-group">
+          <input type="password" id="confirm" placeholder="Confirm Password" required />
+        </div>
+        <button type="submit">SIGN UP</button>
+        <p class="create"><a href="login.html" style="color: inherit; text-decoration: none;">Already have an account? Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function handleSignUp(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const userData = { name, email, password };
+      localStorage.setItem("user", JSON.stringify(userData));
+      alert("Account created successfully!");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

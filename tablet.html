@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tablets - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #7000aa;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .sidebar {
+      flex: 1 1 250px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-right: 20px;
+      margin-bottom: 20px;
+      max-width: 300px;
+    }
+
+    .product-area {
+      flex: 3 1 600px;
+    }
+
+    .filter-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+    }
+
+    .product-card h3 {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #7000aa;
+      margin: 10px 0;
+    }
+
+    .stars {
+      color: gold;
+      margin: 5px 0;
+    }
+
+    .btn {
+      background-color: #7000aa;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #5b0087;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Tablet Collection</h1>
+</header>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Samsung"> Samsung</label>
+      <label><input type="checkbox" class="brand" value="Apple"> Apple</label>
+      <label><input type="checkbox" class="brand" value="Lenovo"> Lenovo</label>
+      <label><input type="checkbox" class="brand" value="Realme"> Realme</label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <label><input type="checkbox" class="price-range" value="1"> ₹10,000 - ₹20,000</label>
+      <label><input type="checkbox" class="price-range" value="2"> ₹20,000 - ₹35,000</label>
+      <label><input type="checkbox" class="price-range" value="3"> ₹35,000 - ₹60,000</label>
+    </div>
+
+    <button onclick="applyFilters()" class="btn">Show</button>
+  </div>
+
+  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Tablets</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</div>
+
+<script>
+const tablets = [
+  { brand: 'Samsung', name: 'Samsung Galaxy Tab A8', desc: '10.5" Display, 4GB RAM, 64GB', price: 17999, rating: 4, img: './assets/images/tablets/tab1.jpg' },
+  { brand: 'Apple', name: 'iPad 10th Gen', desc: 'A14 Bionic, 64GB, WiFi', price: 44999, rating: 5, img: './assets/images/tablets/tab2.jpg' },
+  { brand: 'Lenovo', name: 'Lenovo Tab M10', desc: '10.3" FHD, 4GB RAM, 128GB', price: 15999, rating: 3, img: './assets/images/tablets/tab3.jpg' },
+  { brand: 'Realme', name: 'Realme Pad Mini', desc: '8.7" Display, 3GB RAM, 32GB', price: 10999, rating: 4, img: './assets/images/tablets/tab4.jpg' },
+  { brand: 'Samsung', name: 'Samsung Galaxy Tab S6 Lite', desc: 'S-Pen, 10.4", 4GB RAM', price: 27999, rating: 4, img: './assets/images/tablets/tab5.jpg' },
+  { brand: 'Apple', name: 'iPad Air 5', desc: 'M1 chip, 64GB, WiFi', price: 57999, rating: 5, img: './assets/images/tablets/tab6.jpg' },
+  { brand: 'Lenovo', name: 'Lenovo Yoga Tab 11', desc: '11" 2K Display, 4GB RAM', price: 21999, rating: 3, img: './assets/images/tablets/tab7.jpg' },
+  { brand: 'Realme', name: 'Realme Pad X', desc: '6GB RAM, 128GB', price: 25999, rating: 4, img: './assets/images/tablets/tab8.jpg' },
+  { brand: 'Samsung', name: 'Samsung Tab S9 FE+', desc: '12.4" Display, 8GB RAM', price: 58999, rating: 5, img: './assets/images/tablets/tab9.jpg' },
+  { brand: 'Apple', name: 'iPad Pro 11"', desc: 'M2 chip, 128GB, WiFi', price: 85999, rating: 5, img: './assets/images/tablets/tab10.jpg' },
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = tablets.filter(t => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(t.brand);
+    const priceMatch = selectedPrices.length === 0 || selectedPrices.some(p => {
+      if (p === '1') return t.price >= 10000 && t.price <= 20000;
+      if (p === '2') return t.price > 20000 && t.price <= 35000;
+      if (p === '3') return t.price > 35000 && t.price <= 60000;
+    });
+    return brandMatch && priceMatch;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (products.length === 0) {
+    grid.innerHTML = '<p>No tablets found.</p>';
+    return;
+  }
+  products.forEach(p => {
+    const stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="stars">${stars}</div>
+        <div class="price">₹${p.price.toLocaleString()}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(tablets);
+</script>
+
+</body>
+</html>

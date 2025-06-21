@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Women's Bags - GSS eCommerce</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #fdfdfd; }
+    header { background: #884ea0; color: white; text-align: center; padding: 1rem; }
+    .container { display: flex; flex-wrap: wrap; padding: 20px; }
+    .sidebar {
+      max-width: 250px; background: white; padding: 20px; margin-right: 20px;
+      border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%;
+    }
+    .product-area { flex: 1; }
+    .filter-title { font-weight: bold; margin-bottom: 10px; }
+    .filter-group { margin-bottom: 20px; }
+    .filter-group label { display: block; margin-bottom: 5px; }
+    .sort-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+    }
+    .product-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: white; border-radius: 10px; padding: 15px; text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .product-card img {
+      width: 100%; height: 180px; object-fit: cover; border-radius: 8px;
+    }
+    .product-card h3 { margin: 10px 0 5px; font-size: 16px; }
+    .product-card p { font-size: 13px; color: #555; }
+    .price { color: #884ea0; font-weight: bold; margin: 10px 0; }
+    .rating { color: #f4c150; }
+    .btn {
+      background: #884ea0; color: white; border: none; padding: 10px;
+      width: 100%; border-radius: 5px; cursor: pointer;
+    }
+    .btn:hover { background: #76448a; }
+
+    @media(max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar { margin-right: 0; margin-bottom: 20px; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Women's Bags Collection</h1>
+</header>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Baggit"> Baggit</label>
+      <label><input type="checkbox" class="brand" value="Lavie"> Lavie</label>
+      <label><input type="checkbox" class="brand" value="Caprese"> Caprese</label>
+      <label><input type="checkbox" class="brand" value="Hidesign"> Hidesign</label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <label><input type="checkbox" class="price-range" value="1"> ₹500 - ₹1000</label>
+      <label><input type="checkbox" class="price-range" value="2"> ₹1000 - ₹2000</label>
+      <label><input type="checkbox" class="price-range" value="3"> ₹2000 - ₹4000</label>
+    </div>
+
+    <button onclick="applyFilters()" class="btn">Show</button>
+  </div>
+
+  <!-- Product area -->
+  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Handbags & Totes</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { brand: "Baggit", name: "Baggit Tote Bag", desc: "Faux leather pink tote", price: 899, rating: 4, img: "./assets/images/products/womenbag1.jpg" },
+  { brand: "Lavie", name: "Lavie Sling Bag", desc: "Compact stylish sling", price: 1299, rating: 5, img: "./assets/images/products/womenbag2.jpg" },
+  { brand: "Caprese", name: "Caprese Satchel", desc: "Elegant brown satchel", price: 1699, rating: 4, img: "./assets/images/products/womenbag3.jpg" },
+  { brand: "Hidesign", name: "Hidesign Leather Handbag", desc: "Genuine leather handbag", price: 3499, rating: 5, img: "./assets/images/products/womenbag4.jpg" },
+  { brand: "Lavie", name: "Lavie Hobo Bag", desc: "Spacious grey hobo", price: 1099, rating: 4, img: "./assets/images/products/womenbag5.jpg" },
+  { brand: "Caprese", name: "Caprese Crossbody", desc: "Navy blue crossbody", price: 899, rating: 3, img: "./assets/images/products/womenbag6.jpg" },
+  { brand: "Baggit", name: "Baggit Work Bag", desc: "Stylish work tote", price: 1199, rating: 4, img: "./assets/images/products/womenbag7.jpg" },
+  { brand: "Hidesign", name: "Hidesign Shoulder Bag", desc: "Brown shoulder leather", price: 2799, rating: 5, img: "./assets/images/products/womenbag8.jpg" },
+  { brand: "Lavie", name: "Lavie Wallet Clutch", desc: "Multicolor clutch wallet", price: 599, rating: 4, img: "./assets/images/products/womenbag9.jpg" },
+  { brand: "Caprese", name: "Caprese Office Bag", desc: "Beige leather finish", price: 1499, rating: 4, img: "./assets/images/products/womenbag10.jpg" }
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(el => el.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(el => el.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = products.filter(p => {
+    const brandOK = selectedBrands.length === 0 || selectedBrands.includes(p.brand);
+    const priceOK = selectedPrices.length === 0 || selectedPrices.some(range => {
+      if (range === '1') return p.price >= 500 && p.price <= 1000;
+      if (range === '2') return p.price > 1000 && p.price <= 2000;
+      if (range === '3') return p.price > 2000 && p.price <= 4000;
+    });
+    return brandOK && priceOK;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(items) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (items.length === 0) {
+    grid.innerHTML = '<p>No items found.</p>';
+    return;
+  }
+  items.forEach(item => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${item.img}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="price">₹${item.price.toLocaleString()}</div>
+        <div class="rating">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(products);
+</script>
+
+</body>
+</html>

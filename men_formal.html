@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Men's Formal - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }header {
+  background-color: #00509d;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.sidebar {
+  flex: 1 1 250px;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-area {
+  flex: 3 1 600px;
+  margin-left: 20px;
+}
+
+.filter-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.sort-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product-card h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: #555;
+}
+
+.price {
+  font-weight: bold;
+  color: #00509d;
+  margin: 10px 0;
+}
+
+.stars {
+  color: #ffcc00;
+  margin-bottom: 8px;
+}
+
+.btn {
+  background-color: #00509d;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #003f7f;
+}
+
+@media(max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .product-area {
+    margin-left: 0;
+  }
+}
+
+  </style>
+</head>
+<body><header>
+  <h1>Men's Formal Wear</h1>
+</header><div class="container">
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Peter England"> Peter England</label>
+      <label><input type="checkbox" class="brand" value="Louis Philippe"> Louis Philippe</label>
+      <label><input type="checkbox" class="brand" value="Arrow"> Arrow</label>
+      <label><input type="checkbox" class="brand" value="Van Heusen"> Van Heusen</label>
+    </div><div class="filter-group">
+  <div class="filter-title">Price Range</div>
+  <label><input type="checkbox" class="price-range" value="1"> ₹500 - ₹999</label>
+  <label><input type="checkbox" class="price-range" value="2"> ₹1000 - ₹1999</label>
+  <label><input type="checkbox" class="price-range" value="3"> ₹2000 - ₹4999</label>
+</div>
+
+<button class="btn" onclick="applyFilters()">Show</button>
+
+  </div>  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Formals</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <!-- JS will inject products here -->
+    </div>
+  </div>
+</div><script>
+const products = [
+  { brand: 'Peter England', name: 'Slim Fit Shirt', desc: 'Cotton, Light Blue', price: 899, rating: 4, img: './assets/images/formals/pe1.jpg' },
+  { brand: 'Louis Philippe', name: 'Formal Trousers', desc: 'Black, Poly Blend', price: 1499, rating: 4, img: './assets/images/formals/lp1.jpg' },
+  { brand: 'Arrow', name: 'Classic Fit Shirt', desc: 'White Cotton', price: 1299, rating: 3, img: './assets/images/formals/arrow1.jpg' },
+  { brand: 'Van Heusen', name: 'Navy Blazer', desc: 'Slim Fit', price: 4499, rating: 5, img: './assets/images/formals/vh1.jpg' },
+  { brand: 'Peter England', name: 'Formal Trousers', desc: 'Grey Color', price: 1199, rating: 3, img: './assets/images/formals/pe2.jpg' },
+  { brand: 'Louis Philippe', name: 'Blazer Suit', desc: 'Men Navy Blue', price: 4999, rating: 4, img: './assets/images/formals/lp2.jpg' },
+  { brand: 'Arrow', name: 'Formal Shirt', desc: 'Sky Blue Slim Fit', price: 1099, rating: 4, img: './assets/images/formals/arrow2.jpg' },
+  { brand: 'Van Heusen', name: 'Formal Trousers', desc: 'Slim Fit Black', price: 1999, rating: 5, img: './assets/images/formals/vh2.jpg' },
+  { brand: 'Peter England', name: 'Check Shirt', desc: 'Red Slim Fit', price: 899, rating: 3, img: './assets/images/formals/pe3.jpg' },
+  { brand: 'Arrow', name: 'Formal Blazer', desc: 'Grey Cotton Blend', price: 3299, rating: 4, img: './assets/images/formals/arrow3.jpg' },
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = products.filter(p => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(p.brand);
+    const priceMatch = selectedPrices.length === 0 || selectedPrices.some(pr => {
+      if (pr === '1') return p.price >= 500 && p.price <= 999;
+      if (pr === '2') return p.price >= 1000 && p.price <= 1999;
+      if (pr === '3') return p.price >= 2000 && p.price <= 4999;
+    });
+    return brandMatch && priceMatch;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (products.length === 0) {
+    grid.innerHTML = '<p>No products found.</p>';
+    return;
+  }
+
+  products.forEach(p => {
+    const stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <div class="stars">${stars}</div>
+        <p>${p.desc}</p>
+        <div class="price">₹${p.price.toLocaleString()}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(products);
+</script></body>
+</html>

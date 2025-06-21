@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Men's Casual Wear - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 100%;
+      max-width: 250px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-right: 20px;
+      margin-bottom: 20px;
+    }
+
+    .product-area {
+      flex: 1;
+    }
+
+    .filter-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .sort-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+    }
+
+    .product-card h3 {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 10px 0;
+    }
+
+    .rating {
+      color: #f39c12;
+    }
+
+    .btn {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #1a252f;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Men's Casual Wear</h1>
+</header>
+
+<div class="container">
+  <!-- Sidebar filters -->
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Levi's"> Levi's</label>
+      <label><input type="checkbox" class="brand" value="Zara"> Zara</label>
+      <label><input type="checkbox" class="brand" value="H&M"> H&M</label>
+      <label><input type="checkbox" class="brand" value="Nike"> Nike</label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <label><input type="checkbox" class="price-range" value="1"> ₹500 - ₹1,000</label>
+      <label><input type="checkbox" class="price-range" value="2"> ₹1,000 - ₹2,000</label>
+      <label><input type="checkbox" class="price-range" value="3"> ₹2,000 - ₹3,000</label>
+    </div>
+
+    <button onclick="applyFilters()" class="btn">Show</button>
+  </div>
+
+  <!-- Product area -->
+  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Casual Clothing</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { brand: "Levi's", name: "Levi's Slim Fit Jeans", desc: "Blue denim, stretchable", price: 1999, rating: 4, img: "./assets/images/products/casual1.jpg" },
+  { brand: "Zara", name: "Zara Casual Shirt", desc: "Cotton, full sleeve", price: 1499, rating: 5, img: "./assets/images/products/casual2.jpg" },
+  { brand: "H&M", name: "H&M Printed T-shirt", desc: "Slim fit, round neck", price: 799, rating: 3, img: "./assets/images/products/casual3.jpg" },
+  { brand: "Nike", name: "Nike Joggers", desc: "Comfort wear", price: 2499, rating: 4, img: "./assets/images/products/casual4.jpg" },
+  { brand: "Zara", name: "Zara Polo T-shirt", desc: "Cotton, half sleeve", price: 1299, rating: 5, img: "./assets/images/products/casual5.jpg" },
+  { brand: "H&M", name: "H&M Hoodie", desc: "Winter casual", price: 2799, rating: 4, img: "./assets/images/products/casual6.jpg" },
+  { brand: "Levi's", name: "Levi's Casual Shirt", desc: "Regular fit", price: 1899, rating: 3, img: "./assets/images/products/casual7.jpg" },
+  { brand: "Nike", name: "Nike Track Pants", desc: "Athleisure wear", price: 2199, rating: 5, img: "./assets/images/products/casual8.jpg" },
+  { brand: "Zara", name: "Zara Denim Jacket", desc: "Street style", price: 2999, rating: 4, img: "./assets/images/products/casual9.jpg" },
+  { brand: "H&M", name: "H&M V-neck Tee", desc: "Soft cotton", price: 699, rating: 3, img: "./assets/images/products/casual10.jpg" }
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = products.filter(p => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(p.brand);
+    const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
+      if (range === '1') return p.price >= 500 && p.price <= 1000;
+      if (range === '2') return p.price > 1000 && p.price <= 2000;
+      if (range === '3') return p.price > 2000 && p.price <= 3000;
+    });
+    return brandMatch && priceMatch;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(items) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (items.length === 0) {
+    grid.innerHTML = '<p>No casual wear items found.</p>';
+    return;
+  }
+
+  items.forEach(item => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${item.img}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="price">₹${item.price.toLocaleString()}</div>
+        <div class="rating">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(products);
+</script>
+
+</body>
+</html>

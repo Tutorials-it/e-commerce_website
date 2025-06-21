@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cameras - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background-color: #7000aa;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      padding: 20px;
+    }
+    .sidebar {
+      width: 20%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-right: 20px;
+    }
+    .product-area {
+      width: 80%;
+    }
+    .filter-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .filter-group {
+      margin-bottom: 20px;
+    }
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+    }
+    .product-card h3 {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .product-card p {
+      font-size: 14px;
+      color: #555;
+    }
+    .price {
+      font-weight: bold;
+      color: #7000aa;
+      margin: 10px 0;
+    }
+    .btn {
+      background-color: #7000aa;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #5b0087;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Camera Collection</h1>
+  </header>
+  <div class="container">
+    <!-- Sidebar filters -->
+    <div class="sidebar">
+      <div class="filter-group">
+        <div class="filter-title">Brand</div>
+        <label><input type="checkbox" class="brand" value="Canon"> Canon</label>
+        <label><input type="checkbox" class="brand" value="Nikon"> Nikon</label>
+        <label><input type="checkbox" class="brand" value="Sony"> Sony</label>
+        <label><input type="checkbox" class="brand" value="Fujifilm"> Fujifilm</label>
+      </div>
+      <div class="filter-group">
+        <div class="filter-title">Price Range</div>
+        <label><input type="checkbox" class="price-range" value="1"> ₹20,000 - ₹40,000</label>
+        <label><input type="checkbox" class="price-range" value="2"> ₹40,000 - ₹70,000</label>
+        <label><input type="checkbox" class="price-range" value="3"> ₹70,000 - ₹1,00,000</label>
+      </div>
+      <button onclick="applyFilters()" class="btn">Show</button>
+    </div>
+
+    <!-- Main content -->
+    <div class="product-area">
+      <div class="sort-bar">
+        <h2>Cameras</h2>
+        <select id="sortBy" onchange="applyFilters()">
+          <option value="">Sort by</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be rendered here by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cameras = [
+      { brand: 'Canon', name: 'Canon EOS 1500D', desc: '24.1MP DSLR, Wi-Fi, Full HD', price: 37999, img: './assets/images/products/camera1.jpg' },
+      { brand: 'Nikon', name: 'Nikon D5600', desc: '24.2MP DSLR, SnapBridge, Touchscreen', price: 52999, img: './assets/images/products/camera2.jpg' },
+      { brand: 'Sony', name: 'Sony Alpha ILCE-6100L', desc: '24.2MP Mirrorless, Fast AF', price: 74999, img: './assets/images/products/camera3.jpg' },
+      { brand: 'Fujifilm', name: 'Fujifilm X-T200', desc: '24.2MP Mirrorless, Touchscreen LCD', price: 61999, img: './assets/images/products/camera4.jpg' },
+      { brand: 'Canon', name: 'Canon EOS 90D', desc: '32.5MP DSLR, 4K Video', price: 89999, img: './assets/images/products/camera5.jpg' },
+      { brand: 'Nikon', name: 'Nikon Z50', desc: '20.9MP Mirrorless, 4K UHD', price: 68999, img: './assets/images/products/camera6.jpg' },
+      { brand: 'Sony', name: 'Sony ZV-E10', desc: '24.2MP Vlog Camera, Interchangeable Lens', price: 62999, img: './assets/images/products/camera7.jpg' },
+      { brand: 'Fujifilm', name: 'Fujifilm X-A7', desc: '24.2MP Mirrorless, Vari-angle LCD', price: 44999, img: './assets/images/products/camera8.jpg' }
+    ];
+
+    function applyFilters() {
+      const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+      const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+      const sortBy = document.getElementById('sortBy').value;
+
+      let filtered = cameras.filter(c => {
+        const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(c.brand);
+        const priceMatch = selectedPrices.length === 0 || selectedPrices.some(p => {
+          if (p === '1') return c.price >= 20000 && c.price <= 40000;
+          if (p === '2') return c.price > 40000 && c.price <= 70000;
+          if (p === '3') return c.price > 70000 && c.price <= 100000;
+        });
+        return brandMatch && priceMatch;
+      });
+
+      if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+      if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    function renderProducts(products) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      if (products.length === 0) {
+        grid.innerHTML = '<p>No cameras found.</p>';
+        return;
+      }
+      products.forEach(p => {
+        grid.innerHTML += `
+          <div class="product-card">
+            <img src="${p.img}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+            <div class="price">₹${p.price.toLocaleString()}</div>
+            <button class="btn">Add to Cart</button>
+          </div>
+        `;
+      });
+    }
+
+    // Initial render
+    renderProducts(cameras);
+  </script>
+</body>
+</html>

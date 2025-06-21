@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Online Shopping</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #d4a9f9, #e3b7fc);
+      height: 100vh; display: flex;
+      justify-content: center; align-items: center;
+    }
+    .container {
+      background: white; border-radius: 10px;
+      display: flex; width: 80%; max-width: 1000px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .illustration {
+      width: 55%; background-color: #f8e7ff;
+      padding: 30px; text-align: center;
+    }
+    .illustration img {
+      width: 80%; max-width: 300px;
+    }
+    .login-box {
+      width: 45%; padding: 40px;
+      background-color: #f5d6ff;
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .login-box h2 {
+      margin-bottom: 20px; color: #4a0066;
+    }
+    .input-group { margin-bottom: 15px; }
+    .input-group input {
+      width: 100%; padding: 12px;
+      border: none; border-radius: 5px;
+      outline: none;
+    }
+    button {
+      width: 100%; padding: 12px;
+      background-color: #7000aa;
+      color: white; border: none;
+      border-radius: 5px;
+      font-size: 15px; cursor: pointer;
+    }
+    button:hover { background-color: #5b0087; }
+    .forgot, .toggle, .logout {
+      text-align: center; font-size: 12px;
+      color: #4a0066; margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="illustration">
+      <h1>ONLINE SHOPPING</h1>
+      <img src="./assets/images/login.jpg" alt="Login">
+      <p>Welcome to MegaCart – your mega online store. Shop top brands and trending items!</p>
+    </div>
+    <div class="login-box">
+      <h2>USER LOGIN</h2>
+      <form onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required />
+        </div>
+        <div class="input-group">
+          <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+        </div>
+        <p class="forgot">Forgot your password?</p>
+        <button type="submit">LOGIN</button>
+        <div class="toggle">
+          <a href="sign_up.html">Don't have an account? Sign Up</a>
+        </div>
+      </form>
+      <button class="logout" onclick="handleLogout()" style="background: red;">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // Auto-login if session saved
+    window.onload = function () {
+      const session = JSON.parse(localStorage.getItem("session"));
+      if (session && session.email) {
+        alert("Welcome back, " + session.email);
+        // Optionally redirect to index.html
+        // window.location.href = "index.html";
+      }
+    };
+
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const remember = document.getElementById("rememberMe").checked;
+
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser) {
+        alert("No user found. Please sign up.");
+        return;
+      }
+
+      if (storedUser.email === email && storedUser.password === password) {
+        alert("Login successful!");
+        if (remember) {
+          localStorage.setItem("session", JSON.stringify({ email }));
+        }
+        window.location.href = "index.html"; // Redirect to homepage
+      } else {
+        alert("Invalid credentials.");
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem("session");
+      alert("Logged out successfully.");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>

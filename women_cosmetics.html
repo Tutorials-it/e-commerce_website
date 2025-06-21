@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Women's Cosmetics - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fefefe;
+    }
+
+    header {
+      background-color: #c0392b;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 100%;
+      max-width: 250px;
+      background: #fff;
+      padding: 20px;
+      margin-right: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .product-area {
+      flex: 1;
+    }
+
+    .filter-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+    }
+
+    .product-card p {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .price {
+      color: #c0392b;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .rating {
+      color: #f39c12;
+    }
+
+    .btn {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #a93226;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Women's Cosmetics Collection</h1>
+</header>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">Brand</div>
+      <label><input type="checkbox" class="brand" value="Maybelline"> Maybelline</label>
+      <label><input type="checkbox" class="brand" value="Lakme"> Lakme</label>
+      <label><input type="checkbox" class="brand" value="L'Oreal"> L'Oreal</label>
+      <label><input type="checkbox" class="brand" value="MAC"> MAC</label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">Price Range</div>
+      <label><input type="checkbox" class="price-range" value="1"> ₹200 - ₹500</label>
+      <label><input type="checkbox" class="price-range" value="2"> ₹500 - ₹1000</label>
+      <label><input type="checkbox" class="price-range" value="3"> ₹1000 - ₹2000</label>
+    </div>
+
+    <button onclick="applyFilters()" class="btn">Show</button>
+  </div>
+
+  <!-- Product area -->
+  <div class="product-area">
+    <div class="sort-bar">
+      <h2>Cosmetic Products</h2>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { brand: "Maybelline", name: "Fit Me Foundation", desc: "Matte & Poreless", price: 499, rating: 4, img: "./assets/images/products/womencosmetic1.jpg" },
+  { brand: "Lakme", name: "Lakme Lipstick", desc: "Red Matte Finish", price: 299, rating: 4, img: "./assets/images/products/womencosmetic2.jpg" },
+  { brand: "L'Oreal", name: "L'Oreal Mascara", desc: "Voluminous Lash Paradise", price: 899, rating: 5, img: "./assets/images/products/womencosmetic3.jpg" },
+  { brand: "MAC", name: "MAC Studio Fix Powder", desc: "Long wear compact", price: 1850, rating: 5, img: "./assets/images/products/womencosmetic4.jpg" },
+  { brand: "Lakme", name: "Lakme CC Cream", desc: "Instant Skin Stylist", price: 325, rating: 4, img: "./assets/images/products/womencosmetic5.jpg" },
+  { brand: "Maybelline", name: "Colossal Kajal", desc: "Waterproof eye kajal", price: 199, rating: 4, img: "./assets/images/products/womencosmetic6.jpg" },
+  { brand: "L'Oreal", name: "True Match Foundation", desc: "Natural look foundation", price: 999, rating: 4, img: "./assets/images/products/womencosmetic7.jpg" },
+  { brand: "MAC", name: "MAC Lipstick", desc: "Retro Matte Ruby Woo", price: 1650, rating: 5, img: "./assets/images/products/womencosmetic8.jpg" },
+  { brand: "Lakme", name: "Lakme Eyeconic Kajal", desc: "Bold Black", price: 250, rating: 3, img: "./assets/images/products/womencosmetic9.jpg" },
+  { brand: "Maybelline", name: "Maybelline Blush", desc: "Cheeky glow blush", price: 399, rating: 4, img: "./assets/images/products/womencosmetic10.jpg" }
+];
+
+function applyFilters() {
+  const selectedBrands = Array.from(document.querySelectorAll('.brand:checked')).map(b => b.value);
+  const selectedPrices = Array.from(document.querySelectorAll('.price-range:checked')).map(p => p.value);
+  const sortBy = document.getElementById('sortBy').value;
+
+  let filtered = products.filter(p => {
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(p.brand);
+    const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
+      if (range === '1') return p.price >= 200 && p.price <= 500;
+      if (range === '2') return p.price > 500 && p.price <= 1000;
+      if (range === '3') return p.price > 1000 && p.price <= 2000;
+    });
+    return brandMatch && priceMatch;
+  });
+
+  if (sortBy === 'asc') filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === 'desc') filtered.sort((a, b) => b.price - a.price);
+
+  renderProducts(filtered);
+}
+
+function renderProducts(items) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  if (items.length === 0) {
+    grid.innerHTML = '<p>No items found.</p>';
+    return;
+  }
+
+  items.forEach(item => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${item.img}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="price">₹${item.price.toLocaleString()}</div>
+        <div class="rating">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+renderProducts(products);
+</script>
+
+</body>
+</html>

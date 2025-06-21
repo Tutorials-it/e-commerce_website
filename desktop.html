@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktops - GSS eCommerce</title>
+    <link rel="stylesheet" href="./assets/css/style-prefix.css">
+    <style>
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 40px;
+      }
+      .product-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      .product-card:hover {
+        transform: scale(1.02);
+      }
+      .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .product-details {
+        padding: 20px;
+      }
+      .product-title {
+        font-size: 1.1rem;
+        margin: 0 0 10px;
+        font-weight: bold;
+      }
+      .product-description {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
+      .product-price {
+        font-size: 1rem;
+        color: #111;
+        margin-bottom: 15px;
+      }
+      .add-to-cart {
+        padding: 10px;
+        width: 100%;
+        background: #7000aa;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .add-to-cart:hover {
+        background: #5a0088;
+      }
+    </style>
+  </head><body>
+    <header>
+      <h1 style="text-align:center; margin-top: 20px;">Desktops</h1>
+    </header>  <main class="product-grid">
+      <div class="product-card">
+        <img src="./assets/images/products/desktop1.jpg" alt="Gaming Desktop">
+        <div class="product-details">
+          <h2 class="product-title">Gaming Desktop Pro</h2>
+          <p class="product-description">Intel i9, 32GB RAM, 1TB SSD, RTX 3080</p>
+          <p class="product-price">$2199.99</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div><div class="product-card">
+    <img src="./assets/images/products/desktop2.jpg" alt="All-in-One Desktop">
+    <div class="product-details">
+      <h2 class="product-title">All-in-One Office Desktop</h2>
+      <p class="product-description">Intel i5, 16GB RAM, 512GB SSD, 24" Display</p>
+      <p class="product-price">$899.99</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <img src="./assets/images/products/desktop3.jpg" alt="Mini Desktop">
+    <div class="product-details">
+      <h2 class="product-title">Compact Mini PC</h2>
+      <p class="product-description">AMD Ryzen 5, 8GB RAM, 256GB SSD</p>
+      <p class="product-price">$499.99</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+  
+    </main>
+  </body></html>

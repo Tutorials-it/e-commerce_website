@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ecommerce Login & Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    .card h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    .toggle {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .toggle a {
+      color: #3b82f6;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="formCard">
+    <h2 id="formTitle">Login to Shop</h2>
+    <form id="authForm">
+      <div class="form-group" id="nameGroup" style="display: none">
+        <input type="text" placeholder="Full Name" />
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email" required />
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="Password" required />
+      </div>
+      <div class="form-group" id="confirmPasswordGroup" style="display: none">
+        <input type="password" placeholder="Confirm Password" />
+      </div>
+      <button type="submit" class="btn" id="submitButton">Login</button>
+    </form>
+    <div class="toggle">
+      <a id="toggleLink">Don't have an account? Sign Up</a>
+    </div>
+  </div>  <script>
+    const toggleLink = document.getElementById("toggleLink");
+    const formTitle = document.getElementById("formTitle");
+    const submitButton = document.getElementById("submitButton");
+    const nameGroup = document.getElementById("nameGroup");
+    const confirmPasswordGroup = document.getElementById("confirmPasswordGroup");
+
+    let isLogin = true;
+
+    toggleLink.addEventListener("click", () => {
+      isLogin = !isLogin;
+      if (isLogin) {
+        formTitle.textContent = "Login to Shop";
+        submitButton.textContent = "Login";
+        toggleLink.textContent = "Don't have an account? Sign Up";
+        nameGroup.style.display = "none";
+        confirmPasswordGroup.style.display = "none";
+      } else {
+        formTitle.textContent = "Create an Account";
+        submitButton.textContent = "Sign Up";
+        toggleLink.textContent = "Already have an account? Login";
+        nameGroup.style.display = "block";
+        confirmPasswordGroup.style.display = "block";
+      }
+    });
+  </script></body>
+</html>

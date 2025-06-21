@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart - GSS eCommerce</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }header {
+  background-color: #7000aa;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-right: 15px;
+}
+
+.cart-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+.cart-price {
+  font-weight: bold;
+  color: #7000aa;
+}
+
+.btn {
+  background-color: #7000aa;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn:hover {
+  background-color: #5b0087;
+}
+
+.total {
+  text-align: right;
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  font-size: 18px;
+  margin: 40px 0;
+  color: #555;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Shopping Cart</h1>
+  </header>
+  <div class="container">
+    <h2>Your Cart Items</h2>
+    <div id="cartContainer"></div>
+    <div class="total" id="totalAmount"></div>
+  </div>  <script>
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cartContainer");
+      const totalAmount = document.getElementById("totalAmount");
+      container.innerHTML = "";
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty">Your cart is empty.</p>';
+        totalAmount.innerHTML = "";
+        return;
+      }
+
+      let total = 0;
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div class="cart-info">
+              <img src="${item.img}" alt="${item.name}" />
+              <div class="cart-details">
+                <p>${item.name}</p>
+                <p>Quantity: ${item.qty}</p>
+                <p class="cart-price">₹${itemTotal.toLocaleString()}</p>
+              </div>
+            </div>
+            <div>
+              <button class="btn" onclick="removeItem(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+      totalAmount.innerHTML = 'Total Amount: ₹${total.toLocaleString()}';
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  </script></body>
+</html>
